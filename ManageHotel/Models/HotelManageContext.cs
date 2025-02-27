@@ -33,6 +33,7 @@ namespace ManageHotel.Models
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
             if (!optionsBuilder.IsConfigured) { optionsBuilder.UseSqlServer(config.GetConnectionString("value")); }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -64,16 +65,11 @@ namespace ManageHotel.Models
 
                 entity.Property(e => e.Title).HasMaxLength(255);
 
-                entity.HasOne(d => d.Feedback)
-                    .WithMany(p => p.Blogs)
-                    .HasForeignKey(d => d.FeedbackId)
-                    .HasConstraintName("FK__Blogs__FeedbackI__3D5E1FD2");
-
                 entity.HasOne(d => d.Hotel)
                     .WithMany(p => p.Blogs)
                     .HasForeignKey(d => d.HotelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Blogs__HotelId__3C69FB99");
+                    .HasConstraintName("FK__Blogs__HotelId__38996AB5");
             });
 
             modelBuilder.Entity<Booking>(entity =>
@@ -96,13 +92,13 @@ namespace ManageHotel.Models
                     .WithMany(p => p.Bookings)
                     .HasForeignKey(d => d.PaymentTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Bookings__Paymen__4222D4EF");
+                    .HasConstraintName("FK__Bookings__Paymen__3D5E1FD2");
             });
 
             modelBuilder.Entity<BookingDetail>(entity =>
             {
                 entity.HasKey(e => e.BookingDetailsId)
-                    .HasName("PK__BookingD__0717EE3082C39A0B");
+                    .HasName("PK__BookingD__0717EE308FDA9084");
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
@@ -110,13 +106,13 @@ namespace ManageHotel.Models
                     .WithMany(p => p.BookingDetails)
                     .HasForeignKey(d => d.BookingId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BookingDe__Booki__44FF419A");
+                    .HasConstraintName("FK__BookingDe__Booki__403A8C7D");
 
                 entity.HasOne(d => d.Room)
                     .WithMany(p => p.BookingDetails)
                     .HasForeignKey(d => d.RoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BookingDe__RoomI__45F365D3");
+                    .HasConstraintName("FK__BookingDe__RoomI__412EB0B6");
             });
 
             modelBuilder.Entity<Feedback>(entity =>
@@ -126,6 +122,16 @@ namespace ManageHotel.Models
                 entity.Property(e => e.Image).HasMaxLength(255);
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(10);
+
+                entity.HasOne(d => d.Blog)
+                    .WithMany(p => p.Feedbacks)
+                    .HasForeignKey(d => d.BlogId)
+                    .HasConstraintName("FK__Feedbacks__BlogI__44FF419A");
+
+                entity.HasOne(d => d.Hotel)
+                    .WithMany(p => p.Feedbacks)
+                    .HasForeignKey(d => d.HotelId)
+                    .HasConstraintName("FK__Feedbacks__Hotel__45F365D3");
             });
 
             modelBuilder.Entity<Hotel>(entity =>
@@ -144,12 +150,7 @@ namespace ManageHotel.Models
                     .WithMany(p => p.Hotels)
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Hotels__AccountI__2E1BDC42");
-
-                entity.HasOne(d => d.Feedback)
-                    .WithMany(p => p.Hotels)
-                    .HasForeignKey(d => d.FeedbackId)
-                    .HasConstraintName("FK__Hotels__Feedback__2F10007B");
+                    .HasConstraintName("FK__Hotels__AccountI__2B3F6F97");
             });
 
             modelBuilder.Entity<PaymentType>(entity =>
@@ -170,19 +171,19 @@ namespace ManageHotel.Models
                     .WithMany(p => p.Rooms)
                     .HasForeignKey(d => d.HotelId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Rooms__HotelId__34C8D9D1");
+                    .HasConstraintName("FK__Rooms__HotelId__30F848ED");
 
                 entity.HasOne(d => d.TypeRoom)
                     .WithMany(p => p.Rooms)
                     .HasForeignKey(d => d.TypeRoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Rooms__TypeRoomI__35BCFE0A");
+                    .HasConstraintName("FK__Rooms__TypeRoomI__31EC6D26");
             });
 
             modelBuilder.Entity<RoomImage>(entity =>
             {
                 entity.HasKey(e => e.RoomImagesId)
-                    .HasName("PK__RoomImag__5290EE1C75A54725");
+                    .HasName("PK__RoomImag__5290EE1C9FA69D07");
 
                 entity.Property(e => e.ImageName).HasMaxLength(255);
 
@@ -190,7 +191,7 @@ namespace ManageHotel.Models
                     .WithMany(p => p.RoomImages)
                     .HasForeignKey(d => d.RoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__RoomImage__RoomI__38996AB5");
+                    .HasConstraintName("FK__RoomImage__RoomI__34C8D9D1");
             });
 
             modelBuilder.Entity<TypeRoom>(entity =>

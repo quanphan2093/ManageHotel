@@ -8,6 +8,7 @@ namespace ManageHotel.Models
         public Hotel()
         {
             Blogs = new HashSet<Blog>();
+            Feedbacks = new HashSet<Feedback>();
             Rooms = new HashSet<Room>();
         }
 
@@ -21,11 +22,10 @@ namespace ManageHotel.Models
         public DateTime UpdateAt { get; set; }
         public bool IsDeleted { get; set; }
         public int AccountId { get; set; }
-        public int? FeedbackId { get; set; }
 
         public virtual Account Account { get; set; } = null!;
-        public virtual Feedback? Feedback { get; set; }
         public virtual ICollection<Blog> Blogs { get; set; }
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Room> Rooms { get; set; }
     }
 }

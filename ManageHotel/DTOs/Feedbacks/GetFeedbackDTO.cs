@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ManageHotel.Models;
 
-namespace ManageHotel.Models
+namespace ManageHotel.DTOs.Feedbacks
 {
-    public partial class Feedback
+    public class GetFeedbackDTO
     {
         public int FeedbackId { get; set; }
         public string? Content { get; set; }

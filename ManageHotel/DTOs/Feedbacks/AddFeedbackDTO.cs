@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ManageHotel.Models;
 
-namespace ManageHotel.Models
+namespace ManageHotel.DTOs.Feedbacks
 {
-    public partial class Feedback
-    {
-        public int FeedbackId { get; set; }
+    public class AddFeedbackDTO
+    {   
         public string? Content { get; set; }
         public string? Image { get; set; }
         public DateTime CreateAt { get; set; }
@@ -14,8 +12,5 @@ namespace ManageHotel.Models
         public bool IsDeleted { get; set; }
         public int? BlogId { get; set; }
         public int? HotelId { get; set; }
-
-        public virtual Blog? Blog { get; set; }
-        public virtual Hotel? Hotel { get; set; }
     }
 }

@@ -1,3 +1,5 @@
+using AutoMapper;
+using ManageHotel.Config;
 using ManageHotel.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HotelManageContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("value")));
-
+var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MapperConfig()));
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
