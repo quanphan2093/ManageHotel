@@ -1,4 +1,6 @@
-﻿using ManageHotel.Models;
+﻿using ManageHotel.DTOs.Hotels;
+using ManageHotel.DTOs.TypeRooms;
+using ManageHotel.Models;
 
 namespace ManageHotel.DTOs.Rooms
 {
@@ -13,7 +15,7 @@ namespace ManageHotel.DTOs.Rooms
         public bool IsDeleted { get; set; }
         public int HotelId { get; set; }
         public int TypeRoomId { get; set; }
-        public virtual Hotel Hotel { get; set; }
-        public virtual TypeRoom TypeRoom { get; set; }
+        public GetHotelDTO Hotel { get; set; }
+        public GetTypeRoomDTO TypeRoom { get; set; }
     }
 }

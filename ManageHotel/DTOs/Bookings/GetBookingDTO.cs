@@ -13,6 +13,6 @@ namespace ManageHotel.DTOs.Bookings
         public DateTime EndDate { get; set; }
         public string? Status { get; set; }
         public int PaymentTypeId { get; set; }
-        public virtual PaymentType PaymentType { get; set; };
+        public virtual PaymentType PaymentType { get; set; }
     }
 }

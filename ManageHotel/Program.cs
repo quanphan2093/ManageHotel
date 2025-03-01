@@ -1,6 +1,9 @@
 using AutoMapper;
 using ManageHotel.Config;
+using ManageHotel.DAO;
 using ManageHotel.Models;
+using ManageHotel.Repository;
+using ManageHotel.Repository.impl;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddTransient<HotelDAO>();
+builder.Services.AddTransient<IHotelRepository, HotelRepository>();
+builder.Services.AddTransient<AccountDAO>();
+builder.Services.AddTransient<IAccountRepository,AccountRepository>();
+builder.Services.AddTransient<BlogDAO>();
+builder.Services.AddTransient<IBlogRepository,BlogRepository>();
+builder.Services.AddTransient<RoomDAO>();
+builder.Services.AddTransient<IRoomRepository,RoomRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

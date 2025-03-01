@@ -5,16 +5,15 @@ namespace ManageHotel.DTOs.Accounts
     public class AddAccountDTO
     {
         [Required]
-        public string Email { get; set; } = null!;
+        public string Email { get; set; }
         [Required]
-        public string Password { get; set; } = null!;
+        public string Password { get; set; } 
         [Required]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
         [Required]
-        public string PhoneNumber { get; set; } = null!;
+        public string PhoneNumber { get; set; }
         [Required]
         public DateTime CreateAt { get; set; }
-        public DateTime UpdateAt { get; set; }
         [Required]
         public bool IsDeleted { get; set; }
         [Required]
