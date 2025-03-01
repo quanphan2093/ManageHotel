@@ -1,4 +1,6 @@
-﻿using ManageHotel.Models;
+﻿using ManageHotel.DTOs.Blogs;
+using ManageHotel.DTOs.Hotels;
+using ManageHotel.Models;
 
 namespace ManageHotel.DTOs.Feedbacks
 {
@@ -14,7 +16,7 @@ namespace ManageHotel.DTOs.Feedbacks
         public int? BlogId { get; set; }
         public int? HotelId { get; set; }
 
-        public virtual Blog? Blog { get; set; }
-        public virtual Hotel? Hotel { get; set; }
+        public GetBlogDTO Blog { get; set; }
+        public GetHotelDTO Hotel { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using ManageHotel.DTOs.Bookings;
 using ManageHotel.DTOs.Feedbacks;
 using ManageHotel.DTOs.Hotels;
 using ManageHotel.DTOs.PaymentTypes;
+using ManageHotel.DTOs.Roles;
 using ManageHotel.DTOs.RoomImages;
 using ManageHotel.DTOs.Rooms;
 using ManageHotel.DTOs.TypeRooms;
@@ -20,6 +21,7 @@ namespace ManageHotel.Config
             CreateMap<Account, AccountRequestDTO>().ReverseMap();
             CreateMap<Account, AddAccountDTO>().ReverseMap();
             CreateMap<Account, UpdateAccountDTO>().ReverseMap();
+            CreateMap<Account, RegisterAccountDTO>().ReverseMap();
 
             CreateMap<Blog, GetBlogDTO>().ReverseMap();
             CreateMap<Blog, AddBlogDTO>().ReverseMap();
@@ -55,6 +57,8 @@ namespace ManageHotel.Config
             CreateMap<TypeRoom, GetTypeRoomDTO>().ReverseMap();
             CreateMap<TypeRoom, AddTypeRoomDTO>().ReverseMap();
             CreateMap<TypeRoom, UpdateTypeRoomDTO>().ReverseMap();
+
+            CreateMap<Role, GetRoleDTO>().ReverseMap();
         }
     }
 }

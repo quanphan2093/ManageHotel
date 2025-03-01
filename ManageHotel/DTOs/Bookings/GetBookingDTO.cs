@@ -1,4 +1,5 @@
-﻿using ManageHotel.Models;
+﻿using ManageHotel.DTOs.PaymentTypes;
+using ManageHotel.Models;
 
 namespace ManageHotel.DTOs.Bookings
 {
@@ -13,6 +14,6 @@ namespace ManageHotel.DTOs.Bookings
         public DateTime EndDate { get; set; }
         public string? Status { get; set; }
         public int PaymentTypeId { get; set; }
-        public virtual PaymentType PaymentType { get; set; };
+        public GetPaymentTypeDTO PaymentType { get; set; }
     }
 }

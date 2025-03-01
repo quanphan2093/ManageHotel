@@ -1,4 +1,5 @@
-﻿using ManageHotel.Models;
+﻿using ManageHotel.DTOs.Accounts;
+using ManageHotel.Models;
 
 namespace ManageHotel.DTOs.Hotels
 {
@@ -14,6 +15,6 @@ namespace ManageHotel.DTOs.Hotels
         public DateTime UpdateAt { get; set; }
         public bool IsDeleted { get; set; }
         public int AccountId { get; set; }
-        public virtual Account Account { get; set; }
+        public AccountRequestDTO Account { get; set; }
     }
 }

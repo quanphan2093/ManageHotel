@@ -12,7 +12,6 @@ namespace ManageHotel.DTOs.Bookings
         [Required]
         [MaxLength(10)]
         public string PhoneNumber { get; set; }
-        public decimal TotalPrice { get; set; }
         [Required]
         public DateTime StartDate { get; set; }
         [Required]
