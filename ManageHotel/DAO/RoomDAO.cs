@@ -13,7 +13,7 @@ namespace ManageHotel.DAO
 
         public List<Room> GetAllRooms()
         {
-            return _context.Rooms.Include(x => x.Hotel).Include(x => x.TypeRoom).ToList();
+            return _context.Rooms.Include(x => x.Hotel).Include(x => x.TypeRoom).Include(x => x.RoomImages).ToList();
         }
 
         public void CreateRoom(Room room)

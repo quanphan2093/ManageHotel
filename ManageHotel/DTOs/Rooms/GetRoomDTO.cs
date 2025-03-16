@@ -1,4 +1,5 @@
 ﻿using ManageHotel.DTOs.Hotels;
+using ManageHotel.DTOs.RoomImages;
 using ManageHotel.DTOs.TypeRooms;
 using ManageHotel.Models;
 
@@ -17,5 +18,6 @@ namespace ManageHotel.DTOs.Rooms
         public int TypeRoomId { get; set; }
         public GetHotelDTO Hotel { get; set; }
         public GetTypeRoomDTO TypeRoom { get; set; }
+        public virtual ICollection<string> RoomImages { get; set; }
     }
 }

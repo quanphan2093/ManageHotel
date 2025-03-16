@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ManageHotel.DAO;
 using ManageHotel.DTOs.Hotels;
+using ManageHotel.DTOs.RoomImages;
 using ManageHotel.DTOs.Rooms;
 using ManageHotel.DTOs.TypeRooms;
 using ManageHotel.Models;

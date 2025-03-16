@@ -75,3 +75,4 @@ E:\Workspace\.Net Web API\ManageHotel\ManageHotel\obj\Debug\net6.0\ManageHotel.p
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\obj\Debug\net6.0\ManageHotel.genruntimeconfig.cache
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\obj\Debug\net6.0\ref\ManageHotel.dll
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\AutoMapper.dll
+E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

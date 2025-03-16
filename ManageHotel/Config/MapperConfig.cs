@@ -50,7 +50,8 @@ namespace ManageHotel.Config
             CreateMap<RoomImage, AddRoomImageDTO>().ReverseMap();
             CreateMap<RoomImage, UpdateRoomImageDTO>().ReverseMap();
 
-            CreateMap<Room, GetRoomDTO>().ReverseMap();
+            CreateMap<Room, GetRoomDTO>()
+                .ForMember(h => h.RoomImages, opt => opt.MapFrom(src => src.RoomImages.Select(x => x.ImageName).ToList()));
             CreateMap<Room, AddRoomDTO>().ReverseMap();
             CreateMap<Room, UpdateRoomDTO>().ReverseMap();
 

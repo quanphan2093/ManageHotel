@@ -30,6 +30,11 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true
     };
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("User", policy => policy.RequireRole("User"));
+});
 builder.Services.AddControllers();
 builder.Services.AddTransient<HotelDAO>();
 builder.Services.AddTransient<IHotelRepository, HotelRepository>();
@@ -61,7 +66,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

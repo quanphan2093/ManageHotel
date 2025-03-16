@@ -1,11 +1,23 @@
 {
   "Version": 1,
-  "Hash": "K8ZdqnFM7ZfsLeNWwryDxliE7so35iX+PYmXDUJ7Hes=",
+  "Hash": "BcFwpzXt+bnF0m3kE4lHgAnm11tNjUVb+ii+3DHT1RI=",
   "Source": "HotelManageRazor",
   "BasePath": "_content/HotelManageRazor",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "E:\\Workspace\\.Net Web API\\ManageHotel\\ManageHotel\\ManageHotel.csproj",
+      "Version": 2,
+      "Source": "ManageHotel",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
   "DiscoveryPatterns": [
     {
       "Name": "HotelManageRazor\\wwwroot",
