@@ -23,11 +23,9 @@ namespace ManageHotel.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult CreateBooking(AddBookingDTO dto)
         {
-            _repository.CreateBooking(dto);
-            return Ok();
+            return Ok(_repository.CreateBooking(dto));
         }
 
         [HttpPut("{id}")]

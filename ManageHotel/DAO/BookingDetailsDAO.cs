@@ -16,21 +16,16 @@ namespace ManageHotel.DAO
             return _context.BookingDetails.Include(x => x.Booking).Include(x => x.Room).Where(x => x.BookingId == bookingId).ToList();
         }
 
-        public void CreateBookingDetail(int id, BookingDetail bookingDetail)
+        public void CreateBookingDetail(List<BookingDetail> bookingDetail)
         {
-            var b = _context.Bookings.Find(id);
-            if (b != null)
-            {
-                bookingDetail.BookingId = b.BookingId;
-                _context.BookingDetails.Add(bookingDetail);
-                _context.SaveChanges();
-            }
+            _context.BookingDetails.AddRange(bookingDetail);
+            _context.SaveChanges();
         }
 
         public void UpdateBookingDetail(int bookingid, BookingDetail bookingDetail)
         {
             var b = _context.BookingDetails.Find(bookingid);
-            if(b != null)
+            if (b != null)
             {
                 var room = _context.Rooms.Find(bookingDetail.RoomId);
                 b.RoomId = bookingDetail.RoomId;
@@ -56,7 +51,7 @@ namespace ManageHotel.DAO
         public void DeleteBookingDetail(int bookingid)
         {
             var b = _context.BookingDetails.Find(bookingid);
-            if( b != null)
+            if (b != null)
             {
                 var booking = _context.Bookings.Find(b.BookingId);
 

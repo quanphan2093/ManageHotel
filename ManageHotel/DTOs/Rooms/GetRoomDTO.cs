@@ -11,6 +11,7 @@ namespace ManageHotel.DTOs.Rooms
         public int RoomFloor { get; set; }
         public int RoomNumber { get; set; }
         public decimal Price { get; set; }
+        public string? Title { get; set; }
         public int Quantity { get; set; }
         public string? Description { get; set; }
         public bool IsDeleted { get; set; }

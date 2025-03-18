@@ -30,10 +30,11 @@ namespace ManageHotel.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-
-            if (!optionsBuilder.IsConfigured) { optionsBuilder.UseSqlServer(config.GetConnectionString("value")); }
-
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog= HotelManage;User ID=sa;Password=123456; Trusted_Connection=SSPI;Encrypt=false;TrustServerCertificate=true");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -98,7 +99,7 @@ namespace ManageHotel.Models
             modelBuilder.Entity<BookingDetail>(entity =>
             {
                 entity.HasKey(e => e.BookingDetailsId)
-                    .HasName("PK__BookingD__0717EE308FDA9084");
+                    .HasName("PK__BookingD__0717EE30A4E85BDE");
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
@@ -167,6 +168,8 @@ namespace ManageHotel.Models
             {
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
+                entity.Property(e => e.Title).HasMaxLength(255);
+
                 entity.HasOne(d => d.Hotel)
                     .WithMany(p => p.Rooms)
                     .HasForeignKey(d => d.HotelId)
@@ -183,7 +186,7 @@ namespace ManageHotel.Models
             modelBuilder.Entity<RoomImage>(entity =>
             {
                 entity.HasKey(e => e.RoomImagesId)
-                    .HasName("PK__RoomImag__5290EE1C9FA69D07");
+                    .HasName("PK__RoomImag__5290EE1CEFCA33FF");
 
                 entity.Property(e => e.ImageName).HasMaxLength(255);
 

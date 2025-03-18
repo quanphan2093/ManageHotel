@@ -3,7 +3,31 @@
 @{
     Layout = "_Layout";
 }
+<style>
+    .dropdown-menu {
+        width: 100%;
+        max-height: 250px; /* Giới hạn chiều cao */
+        overflow-y: auto; /* Tạo thanh cuộn */
+    }
 
+    .form-floating .dropdown-toggle {
+        width: 100%;
+        text-align: left;
+    }
+
+    .filter-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+
+        .filter-group div {
+            flex: 1;
+        }
+</style>
 <!-- Page Header Start -->
 <div class="container-fluid page-header mb-5 p-0" style="background-image: url(~/customer/img/carousel-1.jpg);">
     <div class="container-fluid page-header-inner py-5">
@@ -90,60 +114,73 @@
             </div>
             <div class="col-lg-6">
                 <div class="wow fadeInUp" data-wow-delay="0.2s">
-                    <form>
+                    <form method="post">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name">
                                     <label for="name">Your Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                    <input type="text" name="phone" class="form-control" id="phone" placeholder="Your Phone Number">
+                                    <label for="email">Your Phone Number</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="email" name="email" class="form-control" id="email" placeholder="Your Email">
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating date" id="date3" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" id="checkin" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" />
+                                    <input type="date" name="start" id="checkin" class="form-control " />
                                     <label for="checkin">Check In</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating date" id="date4" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" id="checkout" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" />
+                                    <input type="date" name="end" class="form-control " id="checkout" placeholder="Check Out" data-target="#date4" />
                                     <label for="checkout">Check Out</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select class="form-select" id="select1">
-                                        <option value="1">Adult 1</option>
-                                        <option value="2">Adult 2</option>
-                                        <option value="3">Adult 3</option>
-                                    </select>
-                                    <label for="select1">Select Adult</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select class="form-select" id="select2">
-                                        <option value="1">Child 1</option>
-                                        <option value="2">Child 2</option>
-                                        <option value="3">Child 3</option>
-                                    </select>
-                                    <label for="select2">Select Child</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <select class="form-select" id="select3">
-                                        <option value="1">Room 1</option>
-                                        <option value="2">Room 2</option>
-                                        <option value="3">Room 3</option>
-                                    </select>
-                                    <label for="select3">Select A Room</label>
+                                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select A Room
+                                    </button>
+                                    <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
+                                        <li class="filter-group">
+                                            <div>
+                                                <strong>Floor</strong>
+                                                @foreach (var floor in Model.GetRoomFloors)
+                                                {
+                                                    <div class="form-check">
+                                                        <input class="form-check-input floor-filter" type="checkbox" id="floor_@floor" value="@floor">
+                                                        <label class="form-check-label" for="floor_@floor">@floor</label>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div>
+                                                <strong>Room Type</strong>
+                                                @foreach (var type in Model.GetTypeRooms)
+                                                {
+                                                    <div class="form-check">
+                                                        <input class="form-check-input type-filter" type="checkbox" id="type_@type.TypeRoomId" value="@type.TypeRoomId">
+                                                        <label class="form-check-label" for="type_@type.TypeRoomId">@type.Name</label>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <strong>Rooms</strong>
+                                            <ul id="roomList" class="list-unstyled">
+                                                <!-- Danh sách phòng sẽ được tạo động -->
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -163,3 +200,77 @@
     </div>
 </div>
 <!-- Booking End -->
+
+<script>
+    const RoomApiUrl = "@Model.RoomApiUrl";
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        const dropdownButton = document.getElementById("dropdownMenuButton");
+        const roomList = document.getElementById("roomList");
+
+        let rooms = [];
+
+        async function fetchRooms() {
+            try {
+                const response = await fetch(RoomApiUrl);
+                if (!response.ok) throw new Error("Failed to fetch rooms");
+
+                const data = await response.json();
+                rooms = data;
+                renderRooms();
+            } catch (error) {
+                console.error("Error fetching rooms:", error);
+            }
+        }
+
+        function renderRooms() {
+            roomList.innerHTML = "";
+
+            let selectedFloors = [...document.querySelectorAll(".floor-filter:checked")].map(cb => cb.value);
+            let selectedTypes = [...document.querySelectorAll(".type-filter:checked")].map(cb => cb.value);
+
+            console.log("Selected Floors:", selectedFloors);
+            console.log("Selected Types:", selectedTypes);
+
+            let filteredRooms = rooms.filter(room => {
+                let matchesFloor = selectedFloors.length === 0 || selectedFloors.includes(room.roomFloor.toString());
+                let matchesType = selectedTypes.length === 0 || selectedTypes.includes(room.typeRoomId.toString());
+                return matchesFloor && matchesType;
+            });
+
+            console.log("Filtered Rooms:", filteredRooms);
+
+            filteredRooms.forEach(room => {
+                let li = document.createElement("li");
+                li.innerHTML = `
+                <div class="form-check">
+                        <input class="form-check-input room-checkbox" type="checkbox" name="room" id="room${room.roomId}" value="${room.roomId}">
+                    <label class="form-check-label" for="room${room.roomId}">
+                       Room: ${room.roomNumber}, Price: $${room.price}
+                    </label>
+                </div>
+            `;
+                roomList.appendChild(li);
+            });
+
+            updateDropdownText();
+        }
+
+        function updateDropdownText() {
+            let selectedRooms = [...document.querySelectorAll(".room-checkbox:checked")].map(cb => cb.value);
+            dropdownButton.textContent = selectedRooms.length > 0 ? selectedRooms.join(", ") : "Select A Room";
+        }
+
+        document.addEventListener("change", function (event) {
+            if (event.target.classList.contains("floor-filter") || event.target.classList.contains("type-filter")) {
+                renderRooms();
+            } else if (event.target.classList.contains("room-checkbox")) {
+                updateDropdownText();
+            }
+        });
+
+        await fetchRooms();
+    });
+</script>
+
+

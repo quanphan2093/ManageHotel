@@ -11,16 +11,16 @@ namespace ManageHotel.Models
         }
 
         public int BookingId { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; } 
+        public string FullName { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
         public decimal TotalPrice { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? Status { get; set; }
         public int PaymentTypeId { get; set; }
 
-        public virtual PaymentType PaymentType { get; set; } 
+        public virtual PaymentType PaymentType { get; set; } = null!;
         public virtual ICollection<BookingDetail> BookingDetails { get; set; }
     }
 }

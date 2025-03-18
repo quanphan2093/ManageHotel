@@ -15,10 +15,11 @@ namespace ManageHotel.Repository.impl
             _mapper = mapper;
             _dao = dao;
         }
-        public void CreateBooking(AddBookingDTO dto)
+        public GetBookingDTO CreateBooking(AddBookingDTO dto)
         {
             var booking = _mapper.Map<Booking>(dto);
             _dao.CreateBooking(booking);
+            return _mapper.Map<GetBookingDTO>(booking);
         }
 
         public List<GetBookingDTO> GetAllBooking()
