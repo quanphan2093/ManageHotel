@@ -33,13 +33,9 @@ namespace ManageHotel.DAO
             var a = _context.Accounts.Find(id);
             if(a != null)
             {
-                a.Email = account.Email;
-                a.Password = account.Password;
                 a.PhoneNumber=account.PhoneNumber;
                 a.Name = account.Name;
-                a.CreateAt = account.CreateAt;
-                a.UpdateAt=DateTime.Now;
-                a.IsDeleted = account.IsDeleted;
+                a.UpdateAt=DateTime.UtcNow;
                 a.RoleId= account.RoleId;
                 _context.Accounts.Update(a);
                 _context.SaveChanges();
@@ -51,7 +47,7 @@ namespace ManageHotel.DAO
             var a =_context.Accounts.Find(id);
             if(a != null)
             {
-                a.IsDeleted= true;
+                a.IsDeleted = !a.IsDeleted;
                 _context.Accounts.Update(a);
                 _context.SaveChanges(); 
             }

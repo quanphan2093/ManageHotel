@@ -1,6 +1,7 @@
 using ManageHotel.DAO;
 using ManageHotel.DTOs.BookingDetails;
 using ManageHotel.DTOs.Bookings;
+using ManageHotel.DTOs.PaymentTypes;
 using ManageHotel.DTOs.Rooms;
 using ManageHotel.DTOs.TypeRooms;
 using ManageHotel.Models;
@@ -20,6 +21,7 @@ namespace HotelManageRazor.Pages.Customer
         private readonly string BookingApiUrl;
         private readonly string BookingDetailApiUrl;
         private readonly string TypeRoomApiUrl;
+        private readonly string PaymentApiUrl;
 
         public BookingModel(IConfiguration configuration)
         {
@@ -29,11 +31,13 @@ namespace HotelManageRazor.Pages.Customer
             TypeRoomApiUrl = "https://localhost:7036/api/TypeRoom";
             BookingApiUrl = "https://localhost:7036/api/Booking";
             BookingDetailApiUrl = "https://localhost:7036/api/BookingDetail";
+            PaymentApiUrl = "https://localhost:7036/api/Payment";
         }
 
         public List<GetRoomDTO> GetRooms { get; set; } = new List<GetRoomDTO>();
         public List<GetTypeRoomDTO> GetTypeRooms { get; set; } = new List<GetTypeRoomDTO>();
         public List<int> GetRoomFloors { get; set; } = new List<int>();
+        public List<GetPaymentTypeDTO> GetPayments { get; set; } = new List<GetPaymentTypeDTO>();
         public string Error { get; set; }
         public async Task OnGet()
         {
@@ -46,12 +50,12 @@ namespace HotelManageRazor.Pages.Customer
             {
                 GetRooms = JsonSerializer.Deserialize<List<GetRoomDTO>>(roomResponse, options) ?? new List<GetRoomDTO>();
                 GetTypeRooms = JsonSerializer.Deserialize<List<GetTypeRoomDTO>>(typeRoomResponse, options) ?? new List<GetTypeRoomDTO>();
-
                 GetRoomFloors = GetRooms.Select(x => x.RoomFloor).Distinct().ToList();
+                GetPayments = JsonSerializer.Deserialize<List<GetPaymentTypeDTO>>(await client.GetStringAsync(PaymentApiUrl), options);
             }
         }
 
-        public async Task OnPost(string name, string email, string phone, string start, string end, List<string> room)
+        public async Task OnPost(string name, string email, string phone, string start, string end, List<string> room, int paymentId)
         {
             foreach (var roomId in room)
             {
@@ -69,7 +73,7 @@ namespace HotelManageRazor.Pages.Customer
                     FullName = name,
                     PhoneNumber = phone,
                     Status = "Booking",
-                    PaymentTypeId = 1
+                    PaymentTypeId = paymentId
                 };
 
                 var jsonContent = new StringContent(JsonSerializer.Serialize(bookingDto, options), Encoding.UTF8, "application/json");

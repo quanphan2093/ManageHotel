@@ -7,5 +7,7 @@ namespace ManageHotel.Repository
         List<GetBookingDTO> GetAllBooking();
         GetBookingDTO CreateBooking (AddBookingDTO dto);
         void UpdateBooking (int id, UpdateBookingDTO dto);
+        List<GetBookingDTO> GetBookingByPhoneNumber(string phonenumber);
+        List<GetBookingDTO> GetBookingByDay(DateTime from, DateTime to);
     }
 }

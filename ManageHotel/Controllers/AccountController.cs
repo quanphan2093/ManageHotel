@@ -40,7 +40,7 @@ namespace ManageHotel.Controllers
         public IActionResult UpdateAccount(int id, UpdateAccountDTO dto)
         {
             _repository.UpdateAccount(id, dto);
-            return Ok();
+            return Ok(dto);
         }
 
         [HttpDelete("{id}")]
@@ -50,7 +50,7 @@ namespace ManageHotel.Controllers
             return Ok();
         }
 
-        [HttpGet("id", Name ="GetAccount")]
+        [HttpGet("{id}")]
         public IActionResult GetAccountById(int id)
         {
             return Ok(_repository.GetAccountById(id));

@@ -22,6 +22,12 @@ namespace ManageHotel.Controllers
             return Ok(_repository.GetAllRoom());
         }
 
+        [HttpGet("/GetAllRoomUnBooking")]
+        public IActionResult GetAllRoomUnBooking(DateTime to, DateTime from)
+        {
+            return Ok(_repository.GetAllRoomUnBooking(from, to));
+        }
+
         [HttpPost]
         [Authorize]
         public IActionResult CreateRoom(AddRoomDTO dto)
@@ -39,7 +45,7 @@ namespace ManageHotel.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public IActionResult DeleteRoom(int id)
         {
             _repository.DeleteRoom(id);

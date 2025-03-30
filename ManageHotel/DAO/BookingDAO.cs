@@ -1,4 +1,5 @@
-﻿using ManageHotel.Models;
+﻿using ManageHotel.DTOs.Bookings;
+using ManageHotel.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ManageHotel.DAO
@@ -13,7 +14,20 @@ namespace ManageHotel.DAO
 
         public List<Booking> GetAllBooking()
         {
-            return _context.Bookings.Include(x => x.PaymentType).ToList();
+            return _context.Bookings.Include(x => x.PaymentType).Include(x => x.BookingDetails).ToList();
+        }
+        public List<Booking> GetBookingByDay(DateTime from, DateTime to)
+        {   
+            if(from > to)
+            {
+                return null;
+            }
+            return _context.Bookings.Include(x => x.PaymentType).Include(x => x.BookingDetails).ThenInclude(x => x.Room).Where(x => x.StartDate <= to || x.EndDate >= from).ToList();
+        }
+        //
+        public List<Booking> GetBookingByPhoneNumber(string phoneNumber)
+        {
+            return _context.Bookings.Include(x => x.PaymentType).Where(x => x.PhoneNumber.Equals(phoneNumber)).ToList();
         }
 
         public void CreateBooking(Booking booking)

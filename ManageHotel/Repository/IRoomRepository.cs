@@ -1,4 +1,5 @@
-﻿using ManageHotel.DTOs.Rooms;
+﻿using ManageHotel.DTOs.Bookings;
+using ManageHotel.DTOs.Rooms;
 
 namespace ManageHotel.Repository
 {
@@ -8,5 +9,6 @@ namespace ManageHotel.Repository
         void CreateRoom(AddRoomDTO room);
         void UpdateRoom(int id,UpdateRoomDTO room);
         void DeleteRoom(int roomId);
+        List<GetRoomDTO> GetAllRoomUnBooking(DateTime from, DateTime to);
     }
 }

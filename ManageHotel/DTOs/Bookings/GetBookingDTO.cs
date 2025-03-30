@@ -1,4 +1,5 @@
-﻿using ManageHotel.DTOs.PaymentTypes;
+﻿using ManageHotel.DTOs.BookingDetails;
+using ManageHotel.DTOs.PaymentTypes;
 using ManageHotel.Models;
 
 namespace ManageHotel.DTOs.Bookings
@@ -15,5 +16,6 @@ namespace ManageHotel.DTOs.Bookings
         public string? Status { get; set; }
         public int PaymentTypeId { get; set; }
         public GetPaymentTypeDTO PaymentType { get; set; }
+        public List<GetBookingDetailDTO> BookingDetails { get; set; }
     }
 }

@@ -5,7 +5,9 @@ E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\ManageHotel.d
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\ManageHotel.runtimeconfig.json
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\ManageHotel.dll
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\ManageHotel.pdb
+E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\AutoMapper.dll
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\Humanizer.dll
+E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -74,5 +76,4 @@ E:\Workspace\.Net Web API\ManageHotel\ManageHotel\obj\Debug\net6.0\refint\Manage
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\obj\Debug\net6.0\ManageHotel.pdb
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\obj\Debug\net6.0\ManageHotel.genruntimeconfig.cache
 E:\Workspace\.Net Web API\ManageHotel\ManageHotel\obj\Debug\net6.0\ref\ManageHotel.dll
-E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\AutoMapper.dll
-E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\Workspace\.Net Web API\ManageHotel\ManageHotel\bin\Debug\net6.0\QRCoder.dll

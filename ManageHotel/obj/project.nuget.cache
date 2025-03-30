@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7Tgyc/KVGwkZR/Wf1lDIEQrKrEQjps+Zhc8z8tgWkZHUUoCkgVtZyHCrbXpRgzAr0AzQdBUr1HECWv9YoRdmmA==",
+  "dgSpecHash": "dYrKbKx2hklCnE/6wgmRlZSQH3gOZg00dcwaUXn0xhLsIPJW/aRIYLf15j2FmGFD5Qh7qF6tVBedYpQSMTxokA==",
   "success": true,
   "projectFilePath": "E:\\Workspace\\.Net Web API\\ManageHotel\\ManageHotel\\ManageHotel.csproj",
   "expectedPackageFiles": [
@@ -38,6 +38,7 @@
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\qrcoder\\1.6.0\\qrcoder.1.6.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",

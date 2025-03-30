@@ -189,6 +189,22 @@
                                     <label for="message">Special Request</label>
                                 </div>
                             </div>
+                            <div class="col-6">
+                                <div class="form-floating">
+                                    <select id="payment" name="paymentId">
+                                        @foreach(var i in Model.GetPayments)
+                                        {
+                                            <option value="@i.PaymentTypeId">@i.PaymentMethod</option>
+                                        }
+                                    </select>
+                                    @*<label for="payment">Payment Method</label>*@
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating" style="float: right">
+                                    <p style="color:red ; font-size:20px; font-weight:bold">1111VND</p>
+                                </div>
+                            </div>
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
                             </div>
@@ -257,8 +273,14 @@
         }
 
         function updateDropdownText() {
-            let selectedRooms = [...document.querySelectorAll(".room-checkbox:checked")].map(cb => cb.value);
-            dropdownButton.textContent = selectedRooms.length > 0 ? selectedRooms.join(", ") : "Select A Room";
+            let selectedRoomIds = [...document.querySelectorAll(".room-checkbox:checked")].map(cb => cb.value);
+
+            let selectedRoomNumbers = selectedRoomIds.map(id => {
+                let room = rooms.find(r => r.roomId.toString() === id);
+                return room ? room.roomNumber : "";
+            }).filter(num => num !== "");
+
+            dropdownButton.textContent = selectedRoomNumbers.length > 0 ? selectedRoomNumbers.join(", ") : "Select A Room";
         }
 
         document.addEventListener("change", function (event) {

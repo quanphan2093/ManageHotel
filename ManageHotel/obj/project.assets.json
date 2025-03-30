@@ -579,6 +579,15 @@
           }
         }
       },
+      "QRCoder/1.6.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/QRCoder.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/QRCoder.dll": {}
+        }
+      },
       "Swashbuckle.AspNetCore/6.2.3": {
         "type": "package",
         "dependencies": {
@@ -1763,6 +1772,27 @@
         "version.txt"
       ]
     },
+    "QRCoder/1.6.0": {
+      "sha512": "XmPA81eo+oRxBuyVdswsSkTGTE1d3thfF11Z1PdD7oB56A6HU4G4AAOdySmGRMb/cljwlFTMWUtosGEnwpS6GA==",
+      "type": "package",
+      "path": "qrcoder/1.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/QRCoder.dll",
+        "lib/net40/QRCoder.dll",
+        "lib/net5.0-windows7.0/QRCoder.dll",
+        "lib/net5.0/QRCoder.dll",
+        "lib/net6.0-windows7.0/QRCoder.dll",
+        "lib/net6.0/QRCoder.dll",
+        "lib/netstandard1.3/QRCoder.dll",
+        "lib/netstandard2.0/QRCoder.dll",
+        "nuget-icon.png",
+        "nuget-readme.md",
+        "qrcoder.1.6.0.nupkg.sha512",
+        "qrcoder.nuspec"
+      ]
+    },
     "Swashbuckle.AspNetCore/6.2.3": {
       "sha512": "cnzQDn0Le+hInsw2SYwlOhOCPXpYi/szcvnyqZJ12v+QyrLBwAmWXBg6RIyHB18s/mLeywC+Rg2O9ndz0IUNYQ==",
       "type": "package",
@@ -2319,6 +2349,7 @@
       "Microsoft.EntityFrameworkCore.Design >= 6.0.36",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.36",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.36",
+      "QRCoder >= 1.6.0",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
   },
@@ -2394,6 +2425,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[6.0.36, )"
+          },
+          "QRCoder": {
+            "target": "Package",
+            "version": "[1.6.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

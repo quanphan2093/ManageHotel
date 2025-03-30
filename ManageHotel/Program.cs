@@ -58,6 +58,10 @@ builder.Services.AddTransient<TypeRoomDAO>();
 builder.Services.AddTransient<ITypeRoomRepository,TypeRoomRepository>();
 builder.Services.AddTransient<BookingDetailsDAO>();
 builder.Services.AddTransient<IBookingDetailRepository,BookingDetailRepository>();
+builder.Services.AddTransient<RoleDAO>();
+builder.Services.AddTransient<IRoleRepository,RoleRepository>();
+builder.Services.AddTransient<PaymentDAO>();
+builder.Services.AddTransient<IPaymentRepository,PaymentRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

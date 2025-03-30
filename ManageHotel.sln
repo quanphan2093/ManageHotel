@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManageHotel", "ManageHotel\ManageHotel.csproj", "{D7ABBD7E-4F7C-4DC8-AF1B-81A89142BDAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManageRazor", "HotelManageRazor\HotelManageRazor.csproj", "{BC24A5A5-32DE-4DF1-861C-F535A002DF16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelManageRazor", "HotelManageRazor\HotelManageRazor.csproj", "{BC24A5A5-32DE-4DF1-861C-F535A002DF16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

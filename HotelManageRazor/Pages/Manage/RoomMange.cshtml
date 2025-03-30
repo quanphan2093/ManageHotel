@@ -1,0 +1,222 @@
+﻿@page "/ManageRoom"
+@model HotelManageRazor.Pages.Manage.RoomMangeModel
+@{
+    Layout = "LayoutAdmin";
+}
+<link rel="stylesheet" href="~/admin/assets/vendors/simple-datatables/style.css">
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Manage Room</h3>
+                <p class="text-subtitle text-muted">For user to check they list</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">ManageRoom</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="card">
+            @*<div class="card-header">
+                Simple Datatable
+            </div>*@
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>RoomNumber</th>
+                            <th>TypeRoom</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var i in Model.GetRooms)
+                        {
+                            <tr class="table-row" data-id="@i.RoomId" data-status="@i.IsDeleted">
+                                <td>@i.RoomNumber</td>
+                                <td>@i.TypeRoom.Name</td>
+                                <td>@i.Price</td>
+                                <td>
+                                    <button data-bs-toggle="modal"
+                                            data-bs-target="@(i.IsDeleted ? "#activemodal" : "#deletemodal")"
+                                            type="button"
+                                            data-id="@i.RoomId"
+                                            class="btn @(i.IsDeleted ?  "btn-danger" : "btn-success" )">
+                                        @(i.IsDeleted ? "IsActive" : "Active")
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+</div>
+<!--Add Modal -->
+<div class="modal fade" id="addmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="email" class="col-form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="col-form-label">Role:</label>
+                        <select id="role">
+                            <option value="1">Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Delete Modal -->
+<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="Active">
+                <div class="modal-body">
+                    Do you want delete this account?
+                    <input type="hidden" id="deleteItemIdInput" name="id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Active Modal -->
+<div class="modal fade" id="activemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Active Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="Active">
+                <div class="modal-body">
+                    Do you want active this account?
+                    <input type="hidden" id="activeItemIdInput" name="id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Active</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*Update Modal*@
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="Update">
+                <div class="modal-body">
+                    <div class="mb-3" style="display:none;">
+                        <label for="modalAccountId" class="form-label">Id</label>
+                        <input type="hidden" id="modalAccountId" class="form-control" name="accountId" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalEmail" class="form-label">Email</label>
+                        <input type="text" id="modalEmail" class="form-control" name="email" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalName" class="form-label">Name</label>
+                        <input type="text" id="modalName" name="name" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalPhone" class="form-label">Phone</label>
+                        <input type="text" id="modalPhone" name="phone" class="form-control">
+                    </div>
+                    @*<div class="mb-3">
+                        <label for="modalRole" class="form-label">Role</label>
+                        <select id="modalRole" class="form-select" name="role">
+                            @foreach (var i in Model.GetRoles)
+                            {
+                                <option value="@i.RoleId">@i.RoleName</option>
+                                <option value="@i.RoleId" selected="@(i.RoleId == Model.GetRole.RoleId ? "selected" : null)">@i.RoleName</option>
+                            }
+                        </select>
+                    </div>*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let rows = document.querySelectorAll(".table-row");
+        rows.forEach(row => {
+            row.addEventListener("click", function () {
+                let accountId = this.getAttribute("data-id");
+
+                document.getElementById("modalAccountId").value = accountId;
+
+                let modal = new bootstrap.Modal(document.getElementById('userModal'));
+                modal.show();
+            });
+        });
+    });
+</script>
+
+
+<script src="~/admin/assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script>
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let buttons = document.querySelectorAll("[data-bs-toggle='modal']");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function () {
+                let itemId = this.getAttribute("data-id");
+                let modalId = this.getAttribute("data-bs-target");
+
+                if (modalId === "#deletemodal") {
+                    document.getElementById("deleteItemIdInput").value = itemId;
+                } else if (modalId === "#activemodal") {
+                    document.getElementById("activeItemIdInput").value = itemId;
+                }
+            });
+        });
+    });
+</script>

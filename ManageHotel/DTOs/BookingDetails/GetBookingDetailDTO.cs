@@ -1,4 +1,5 @@
-﻿using ManageHotel.Models;
+﻿using ManageHotel.DTOs.Rooms;
+using ManageHotel.Models;
 
 namespace ManageHotel.DTOs.BookingDetails
 {
@@ -9,7 +10,7 @@ namespace ManageHotel.DTOs.BookingDetails
         public int RoomId { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
-        public virtual Booking Booking { get; set; } = null!;
-        public virtual Room Room { get; set; } = null!;
+        //public virtual Booking Booking { get; set; } = null!;
+        public virtual GetRoomDTO Room { get; set; } = null!;
     }
 }
