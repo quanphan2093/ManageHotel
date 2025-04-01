@@ -1,0 +1,205 @@
+﻿@page "/ManageBooking"
+@model HotelManageRazor.Pages.Manage.ManageBookingModel
+@{
+    Layout = "LayoutAdmin";
+}
+
+<link rel="stylesheet" href="~/admin/assets/vendors/simple-datatables/style.css">
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Manage Account</h3>
+                <p class="text-subtitle text-muted">For user to check they list</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">ManageBooking</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>PhoneNumber</th>
+                            <th>StartDate</th>
+                            <th>EndDate</th>
+                            <th>PaymentType</th>
+                            <th>Room</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in Model.GetBookingDTOs)
+                        {
+                            <tr>
+                                <td>@i.Email
+                                </td>
+                                <td>@i.FullName</td>
+                                <td>@i.PhoneNumber</td>
+                                <td>@i.StartDate.ToString("dd/MM/yyyy")</td>
+                                <td>@i.EndDate.ToString("dd/MM/yyyy")</td>
+                                <td>@i.PaymentType.PaymentMethod</td>
+                                <td>
+                                    @foreach(var j in i.BookingDetails)
+                                    {
+                                        <p>@j.Room.RoomNumber</p>
+                                    }
+                                </td>
+                                <td>
+                                    @if (i.Status.Equals("Booking"))
+                                    {
+                                        <button class="btn btn-primary action-btn" data-id="@i.BookingId" data-status="Deposit">Deposit</button>
+                                        <button class="btn btn-warning action-btn" data-id="@i.BookingId" data-status="UnPayment">UnPayment</button>
+                                        <button class="btn btn-danger action-btn" data-id="@i.BookingId" data-status="Cancel">Cancel</button>
+                                    }
+                                    @if (i.Status.Equals("Deposit"))
+                                    {
+                                        <button class="btn btn-success action-btn" data-id="@i.BookingId" data-status="Confirm">Confirm</button>
+                                        <button class="btn btn-danger action-btn" data-id="@i.BookingId" data-status="Cancel">Cancel</button>
+                                    }
+                                    @if (i.Status.Equals("Confirm"))
+                                    {
+                                        <button class="btn btn-success action-btn" data-id="@i.BookingId" data-status="Success">Success</button>
+                                    }
+                                    @if (i.Status.Equals("UnPayment"))
+                                    {
+                                        <button class="btn btn-success action-btn" data-id="@i.BookingId" data-status="Deposit">Deposit</button>
+                                        <button class="btn btn-danger action-btn" data-id="@i.BookingId" data-status="Cancel">Cancel</button>
+                                    }
+                                    @if (i.Status.Equals("Cancel") || i.Status.Equals("Success"))
+                                    {
+                                        @i.Status
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<!--Delete Modal -->
+<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="Active">
+                <div class="modal-body">
+                    Do you want delete this account?
+                    <input type="hidden" id="deleteItemIdInput" name="id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statusModalLabel">Xác nhận hành động</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessage">Bạn có chắc chắn muốn thực hiện hành động này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="confirmAction">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/admin/assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script>
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let selectedStatus = "";
+        let selectedId = "";
+
+        document.querySelectorAll(".action-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                selectedStatus = this.getAttribute("data-status");
+                selectedId = this.getAttribute("data-id");  
+
+                document.getElementById("modalMessage").innerText = `Bạn có chắc chắn muốn chuyển trạng thái thành "${selectedStatus}"?`;
+                var modal = new bootstrap.Modal(document.getElementById("statusModal"));
+                modal.show();
+            });
+        });
+
+        document.getElementById("confirmAction").addEventListener("click", function () {
+            console.log("Đang cập nhật trạng thái:", selectedStatus, "cho booking ID:", selectedId);
+
+            fetch(`https://localhost:7036/api/Booking/Status/${selectedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: selectedStatus })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Lỗi khi cập nhật trạng thái, mã lỗi: ${response.status}`);
+                    }
+                    if (response.status === 204) {
+                        return {};
+                    }
+
+                    return response.text().then(text => {
+                        try {
+                            return text ? JSON.parse(text) : {};
+                        } catch (error) {
+                            throw new Error("Không thể parse dữ liệu JSON từ phản hồi.");
+                        }
+                    });
+                })
+                .then(data => {
+                    console.log("Cập nhật thành công:", data);
+                    let bookingRow = document.querySelector(`[data-id="${selectedId}"]`).closest('tr');
+                    if (bookingRow) {
+                        let statusCell = bookingRow.querySelector('.status-cell'); 
+                        if (statusCell) {
+                            statusCell.innerText = selectedStatus; 
+                        }
+                    }
+                    var modal = bootstrap.Modal.getInstance(document.getElementById("statusModal"));
+                    modal.hide();
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error("Lỗi:", error);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                });
+        });
+
+
+    });
+</script>
+

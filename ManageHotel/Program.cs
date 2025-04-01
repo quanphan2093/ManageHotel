@@ -1,13 +1,17 @@
-using AutoMapper;
+﻿using AutoMapper;
 using ManageHotel.Config;
 using ManageHotel.DAO;
+using Microsoft.AspNetCore.OData;
 using ManageHotel.Models;
 using ManageHotel.Repository;
 using ManageHotel.Repository.impl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -27,12 +31,12 @@ builder.Services.AddAuthentication(options =>
 {
     opt.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        ValidIssuer = builder.Configuration["jwt:issuer"],
+        ValidAudience = builder.Configuration["jwt:audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:key"])),
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = false,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true
     };
 });
@@ -41,7 +45,11 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
     options.AddPolicy("User", policy => policy.RequireRole("User"));
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddXmlSerializerFormatters()
+    .AddOData(opt => opt.Select().Filter().OrderBy().Expand().Count()
+    .SetMaxTop(100).AddRouteComponents("odata", GetEdmModel()));
+
 builder.Services.AddTransient<HotelDAO>();
 builder.Services.AddTransient<IHotelRepository, HotelRepository>();
 builder.Services.AddTransient<AccountDAO>();
@@ -62,6 +70,8 @@ builder.Services.AddTransient<RoleDAO>();
 builder.Services.AddTransient<IRoleRepository,RoleRepository>();
 builder.Services.AddTransient<PaymentDAO>();
 builder.Services.AddTransient<IPaymentRepository,PaymentRepository>();
+builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<EmailService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -71,6 +81,9 @@ var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new MapperConfig(
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 var app = builder.Build();
+app.UseCors("AllowAll");
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -78,11 +91,14 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
-app.UseCors("AllowAll");
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+static IEdmModel GetEdmModel()
+{
+    ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
+    modelBuilder.EntitySet<Account>("Account");
+    return modelBuilder.GetEdmModel();
+}

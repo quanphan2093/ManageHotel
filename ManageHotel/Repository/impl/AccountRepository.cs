@@ -15,10 +15,11 @@ namespace ManageHotel.Repository.impl
             _dao = dao;
             _mapper = mapper;
         }
-        public void CreateAccount(AddAccountDTO account)
+        public AccountRequestDTO CreateAccount(AddAccountDTO account)
         {
             var a = _mapper.Map<Account>(account);
-            _dao.CreateAccount(a);  
+            _dao.CreateAccount(a);
+            return _mapper.Map<AccountRequestDTO>(a);
         }
 
         public void DeleteAccount(int id)
@@ -40,6 +41,12 @@ namespace ManageHotel.Repository.impl
                 account[i].Role = _mapper.Map<GetRoleDTO>(a[i].Role);
             }
             return account;
+        }
+
+        public AccountRequestDTO GetUserByEmail(string email)
+        {
+            var a = _dao.GetUserByEmail(email);
+            return _mapper.Map<AccountRequestDTO>(a);
         }
 
         public AccountRequestDTO Login(string username, string password)

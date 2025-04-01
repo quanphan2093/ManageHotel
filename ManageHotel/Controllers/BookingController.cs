@@ -17,6 +17,7 @@ namespace ManageHotel.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetAllBooking()
         {
             return Ok(_repository.GetAllBooking());
@@ -29,10 +30,22 @@ namespace ManageHotel.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
         public IActionResult UpdateBooking(int id, UpdateBookingDTO dTO)
         {
             _repository.UpdateBooking(id, dTO);
+            return Ok();
+        }
+
+        [HttpGet("{phoneNumber}")]
+        public IActionResult GetBookingByPhoneNumber(string phoneNumber)
+        {
+            return Ok(_repository.GetBookingByPhoneNumber(phoneNumber));
+        }
+
+        [HttpPut("Status/{id}")]
+        public IActionResult UpdateBooking(int id, UpdateStatusBooking dTO)
+        {
+            _repository.UpdateStatusBooking(id, dTO);
             return Ok();
         }
     }

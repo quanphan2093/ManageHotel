@@ -14,7 +14,7 @@ namespace ManageHotel.DAO
 
         public List<Booking> GetAllBooking()
         {
-            return _context.Bookings.Include(x => x.PaymentType).Include(x => x.BookingDetails).ToList();
+            return _context.Bookings.Include(x => x.PaymentType).Include(x => x.BookingDetails).ThenInclude(x => x.Room).ToList();
         }
         public List<Booking> GetBookingByDay(DateTime from, DateTime to)
         {   
@@ -27,7 +27,7 @@ namespace ManageHotel.DAO
         //
         public List<Booking> GetBookingByPhoneNumber(string phoneNumber)
         {
-            return _context.Bookings.Include(x => x.PaymentType).Where(x => x.PhoneNumber.Equals(phoneNumber)).ToList();
+            return _context.Bookings.Include(x => x.PaymentType).Include(x => x.BookingDetails).ThenInclude(x => x.Room).Where(x => x.PhoneNumber.Equals(phoneNumber)).ToList();
         }
 
         public void CreateBooking(Booking booking)
@@ -45,6 +45,17 @@ namespace ManageHotel.DAO
                 b.FullName = booking.FullName;
                 b.StartDate= booking.StartDate;
                 b.EndDate= booking.EndDate;
+                _context.Bookings.Update(b);
+                _context.SaveChanges();
+            }
+        }
+
+        public void UpdateStatusBooking(int id, Booking booking)
+        {
+            var b = _context.Bookings.Find(id);
+            if (b != null)
+            {
+                b.Status = booking.Status;
                 _context.Bookings.Update(b);
                 _context.SaveChanges();
             }

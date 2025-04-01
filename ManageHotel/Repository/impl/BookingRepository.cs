@@ -55,5 +55,11 @@ namespace ManageHotel.Repository.impl
             var booking = _dao.GetBookingByDay(from, to);
             return _mapper.Map<List<GetBookingDTO>>(booking);
         }
+
+        public void UpdateStatusBooking(int id, UpdateStatusBooking dto)
+        {   
+            var booking = _mapper.Map<Booking>(dto);
+            _dao.UpdateStatusBooking(id, booking);
+        }
     }
 }

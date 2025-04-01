@@ -9,5 +9,6 @@ namespace ManageHotel.Repository
         void UpdateBooking (int id, UpdateBookingDTO dto);
         List<GetBookingDTO> GetBookingByPhoneNumber(string phonenumber);
         List<GetBookingDTO> GetBookingByDay(DateTime from, DateTime to);
+        void UpdateStatusBooking(int id, UpdateStatusBooking dto);
     }
 }

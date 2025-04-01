@@ -202,9 +202,14 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-floating" style="float: right">
-                                    <p style="color:red ; font-size:20px; font-weight:bold">1111VND</p>
+                                    <p style="color:red ; font-size:20px; font-weight:bold" id="price">1111VND</p>
                                 </div>
                             </div>
+                            <div class="col-12" id="qrSection" style="display: none; text-align: center;">
+                                <h4>Mã QR Thanh Toán</h4>
+                                <img id="qrCodeImage" src="" alt="VietQR Code" style="max-width: 200px;" />
+                            </div>
+                            <p style="color:red">Please deposit 50% in advance to reserve a room.</p>
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
                             </div>
@@ -223,7 +228,8 @@
     document.addEventListener("DOMContentLoaded", async function () {
         const dropdownButton = document.getElementById("dropdownMenuButton");
         const roomList = document.getElementById("roomList");
-
+        const priceDisplay = document.getElementById("price");
+        console.log("Price"+priceDisplay);
         let rooms = [];
 
         async function fetchRooms() {
@@ -260,7 +266,7 @@
                 let li = document.createElement("li");
                 li.innerHTML = `
                 <div class="form-check">
-                        <input class="form-check-input room-checkbox" type="checkbox" name="room" id="room${room.roomId}" value="${room.roomId}">
+                            <input class="form-check-input room-checkbox" type="checkbox" name="room" id="room${room.roomId}" value="${room.roomId}" data-price="${room.price}">
                     <label class="form-check-label" for="room${room.roomId}">
                        Room: ${room.roomNumber}, Price: $${room.price}
                     </label>
@@ -270,6 +276,7 @@
             });
 
             updateDropdownText();
+            updateTotalPrice();
         }
 
         function updateDropdownText() {
@@ -283,16 +290,71 @@
             dropdownButton.textContent = selectedRoomNumbers.length > 0 ? selectedRoomNumbers.join(", ") : "Select A Room";
         }
 
+        function updateTotalPrice() {
+            let totalPrice = [...document.querySelectorAll(".room-checkbox:checked")].reduce((sum, cb) => {
+                return sum + parseFloat(cb.dataset.price);
+            }, 0);
+            totalPrice = totalPrice * 0.5;
+            priceDisplay.textContent = totalPrice > 0 ? `${totalPrice} VND` : "0 VND";
+        }
+
         document.addEventListener("change", function (event) {
             if (event.target.classList.contains("floor-filter") || event.target.classList.contains("type-filter")) {
                 renderRooms();
             } else if (event.target.classList.contains("room-checkbox")) {
                 updateDropdownText();
+                updateTotalPrice();
             }
         });
 
         await fetchRooms();
     });
 </script>
+<script>
+    document.getElementById("payment").addEventListener("change", function () {
+        var paymentMethod = parseInt(this.value); 
+        var qrSection = document.getElementById("qrSection");
+        var qrCodeImage = document.getElementById("qrCodeImage");
+        if (paymentMethod === 1) {
+            var account = "0824530346";
+            var bank = "MB";
+            var priceText = document.getElementById("price").innerText;
+            var amount = parseInt(priceText.replace("VND", "").trim());
+            var description = "Thanh toán đơn hàng";
+
+            var qrUrl = `https://localhost:7036/api/vietqr/generate?account=${account}&bank=${bank}&amount=${amount}&description=${encodeURIComponent(description)}`;
+
+            fetch(qrUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    qrCodeImage.src = URL.createObjectURL(blob);
+                    qrSection.style.display = "block";
+                })
+                .catch(error => console.error("Lỗi tải QR:", error));
+        } else {
+            qrSection.style.display = "none";
+        }
+    });
+</script>
+
+<script>
+    document.getElementById("payment").addEventListener("change", function () {
+        var paymentMethod = this.value;
+
+        if (paymentMethod == 2) {
+            var priceText = document.getElementById("price").innerText;
+            var amount = parseInt(priceText.replace("VND", "").trim());
+            var orderInfo = "Thanh toán đơn hàng qua VNPay";
+
+            fetch(`https://localhost:7036/api/VNPay/create-payment?amount=${amount}&orderInfo=${encodeURIComponent(orderInfo)}`)
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = data.paymentUrl;
+                })
+                .catch(error => console.error("Lỗi khi tạo thanh toán:", error));
+        }
+    });
+</script>
+
 
 

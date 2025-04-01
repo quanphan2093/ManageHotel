@@ -39,8 +39,8 @@
                     <tbody>
                         @foreach(var i in Model.GetRooms)
                         {
-                            <tr class="table-row" data-id="@i.RoomId" data-status="@i.IsDeleted">
-                                <td>@i.RoomNumber</td>
+                            <tr >
+                                <td class="table-row" data-id="@i.RoomId" data-status="@i.IsDeleted">@i.RoomNumber</td>
                                 <td>@i.TypeRoom.Name</td>
                                 <td>@i.Price</td>
                                 <td>

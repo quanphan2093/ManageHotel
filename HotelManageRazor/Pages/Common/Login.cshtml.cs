@@ -1,8 +1,11 @@
+﻿using ManageHotel.DTOs.Accounts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using static QRCoder.PayloadGenerator;
 
 namespace HotelManageRazor.Pages.Common
 {
@@ -10,18 +13,16 @@ namespace HotelManageRazor.Pages.Common
     {
         private readonly HttpClient client;
         private readonly string AccountApiUrl;
-        private readonly string BookingDetailApiUrl;
-        private readonly string TypeRoomApiUrl;
+        private readonly string LoginApiUrl;
         public string Message { get;set; }
         public LoginModel(IConfiguration configuration)
         {
             client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            TypeRoomApiUrl = "https://localhost:7036/api/TypeRoom";
             AccountApiUrl = "https://localhost:7036/api/Account";
-            BookingDetailApiUrl = "https://localhost:7036/api/BookingDetail";
+            LoginApiUrl = "https://localhost:7036/api/Account/Login";
         }
-
+        public string ErrorMessage { get; set; }
         public void OnGet()
         {
         }
@@ -30,39 +31,42 @@ namespace HotelManageRazor.Pages.Common
         {
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
-                Message = "Email or password cannot be empty";
+                ErrorMessage = "Email và mật khẩu không được để trống!";
                 return Page();
             }
 
-            string loginUrl = $"{AccountApiUrl}/Login";
-
-            var loginData = new { Email = email, Password = password };
+            var loginData = new { email = email.Trim(), password = password.Trim() };
+            Console.WriteLine(loginData);
             var jsonContent = new StringContent(JsonSerializer.Serialize(loginData), Encoding.UTF8, "application/json");
 
             try
             {
-                HttpResponseMessage response = await client.PostAsync(loginUrl, jsonContent);
-
-                if (response.IsSuccessStatusCode)
+                var response = await client.GetAsync($"https://localhost:7036/api/Account/Login?email={email}&password={password}");
+                Console.WriteLine(response);
+                if (!response.IsSuccessStatusCode)
                 {
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    var token = JsonSerializer.Deserialize<string>(responseData);
-
-                    HttpContext.Session.SetString("AuthToken", token);
-
-                    return RedirectToPage("/Home");
-                }
-                else
-                {
-                    Message = "Invalid email or password";
+                    ErrorMessage = "Đăng nhập thất bại! Kiểm tra lại email hoặc mật khẩu.";
                     return Page();
+                }
+
+                var responseString = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<AccountResponse>(responseString, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                if (result != null)
+                {
+                    HttpContext.Session.Clear();  
+                    HttpContext.Session.SetString("JWT", result.Token);
+                    HttpContext.Session.SetString("UserRole", result.Role);
+                    return LocalRedirect("/Dashboard");
                 }
             }
             catch (Exception ex)
             {
-                Message = "An error occurred while logging in. Please try again.";
-                return Page();
+                Console.WriteLine($"Login error: {ex.Message}");
+                ErrorMessage = "Có lỗi xảy ra. Vui lòng thử lại sau.";
             }
+
+            return Page();
         }
     }
 }

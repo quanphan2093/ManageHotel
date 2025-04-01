@@ -25,10 +25,10 @@
                 <div class="sidebar-header">
                     <div class="d-flex justify-content-between">
                         <div class="logo">
-                            <a href="index.html"><img src="~/admin/assets/images/logo/logo.png" alt="Logo" srcset=""></a>
+                            <a href="/Home"><img src="~/admin/assets/images/logo/logo.png" alt="Logo" srcset=""></a>
                         </div>
                         <div class="toggler">
-                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                            <a href="/Home" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
                         </div>
                     </div>
                 </div>
@@ -51,6 +51,18 @@
                             <a href="/ManageRoom" class="sidebar-link">
                                 <i class="bi bi-person-badge-fill"></i>
                                 <span>Manage Room</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item @(Context.Request.Path == "/ManageBooking" ? "active" : "")">
+                            <a href="/ManageBooking" class="sidebar-link">
+                                <i class="bi bi-person-badge-fill"></i>
+                                <span>Manage Booking</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item @(Context.Request.Path == "/ManagePaymetType" ? "active" : "")">
+                            <a href="/ManagePaymetType" class="sidebar-link">
+                                <i class="bi bi-person-badge-fill"></i>
+                                <span>Manage Payment</span>
                             </a>
                         </li>
                     </ul>

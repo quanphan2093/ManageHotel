@@ -42,11 +42,13 @@
                     <tbody>
                         @foreach (var i in Model.GetAccounts)
                         {
-                            <tr class="@(i.Role.RoleId == 1 ? "" : "table-row")"
-                                data-id="@i.AccountId" data-email="@i.Email"
-                                data-name="@i.Name" data-phone="@i.PhoneNumber"
-                                data-role="@i.Role.RoleId" data-status="@i.IsDeleted">
-                                <td>@i.Email</td>
+                            <tr >
+                                <td class="@(i.Role.RoleId == 1 ? "" : "table-row")"
+                                    data-id="@i.AccountId" data-email="@i.Email"
+                                    data-name="@i.Name" data-phone="@i.PhoneNumber"
+                                    data-role="@i.Role.RoleId" data-status="@i.IsDeleted">
+                                    @i.Email
+                                </td>
                                 <td>@i.Name</td>
                                 <td>@i.PhoneNumber</td>
                                 <td>@i.CreateAt.ToString("dd/MM/yyyy")</td>
@@ -78,16 +80,19 @@
                 <h5 class="modal-title" id="exampleModalLabel">Add Account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post" asp-page-handler="">
+            <form method="post" asp-page-handler="Create">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="email" class="col-form-label">Email</label>
-                        <input type="email" class="form-control" id="email" required>
+                        <input type="email" class="form-control" name="email" id="email" required>
                     </div>
                     <div class="mb-3">
                         <label for="role" class="col-form-label">Role:</label>
-                        <select id="role">
-                            <option value="1">Admin</option>
+                        <select id="role" name="role">
+                            @foreach(var i in Model.GetRoles)
+                            {
+                                <option value="@i.RoleId">@i.RoleName</option>
+                            }
                         </select>
                     </div>
                 </div>

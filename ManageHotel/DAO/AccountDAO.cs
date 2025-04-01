@@ -24,10 +24,13 @@ namespace ManageHotel.DAO
 
         public void CreateAccount(Account account)
         {
+            if (account.CreateAt < new DateTime(1753, 1, 1) || account.CreateAt > new DateTime(9999, 12, 31))
+            {
+                account.CreateAt = DateTime.UtcNow;
+            }
             _context.Accounts.Add(account);
             _context.SaveChanges();
         }
-
         public void UpdateAccount(int id, Account account)
         {
             var a = _context.Accounts.Find(id);
@@ -36,12 +39,11 @@ namespace ManageHotel.DAO
                 a.PhoneNumber=account.PhoneNumber;
                 a.Name = account.Name;
                 a.UpdateAt=DateTime.UtcNow;
-                a.RoleId= account.RoleId;
+                a.IsDeleted = false;
                 _context.Accounts.Update(a);
                 _context.SaveChanges();
             }
         }
-
         public void DeleteAccount(int id)
         {
             var a =_context.Accounts.Find(id);
@@ -56,6 +58,11 @@ namespace ManageHotel.DAO
         public Account Login(string email, string password)
         {
             return _context.Accounts.Include(x => x.Role).Where(x => x.Email.Equals(email) && x.Password.Equals(password)).FirstOrDefault();
+        }
+
+        public Account GetUserByEmail(string email)
+        {
+            return _context.Accounts.Include(x => x.Role).Where(x => x.Email.Equals(email)).FirstOrDefault();
         }
 
     }

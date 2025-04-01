@@ -41,8 +41,6 @@ namespace ManageHotel.Models
         {
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.Property(e => e.CreateAt).HasColumnType("datetime");
-
                 entity.Property(e => e.Email).HasMaxLength(255);
 
                 entity.Property(e => e.Name).HasMaxLength(255);
@@ -50,8 +48,6 @@ namespace ManageHotel.Models
                 entity.Property(e => e.Password).HasMaxLength(255);
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(10);
-
-                entity.Property(e => e.UpdateAt).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Accounts)

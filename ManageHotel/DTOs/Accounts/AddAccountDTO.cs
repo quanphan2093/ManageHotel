@@ -7,15 +7,11 @@ namespace ManageHotel.DTOs.Accounts
         [Required]
         public string Email { get; set; }
         [Required]
-        public string Password { get; set; } 
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public string PhoneNumber { get; set; }
-        [Required]
-        public DateTime CreateAt { get; set; }
+        public string Password { get; set; }
         [Required]
         public bool IsDeleted { get; set; }
+        [Required]
+        public DateTime CreateAt { get; set; }
         [Required]
         public int RoleId { get; set; }
     }

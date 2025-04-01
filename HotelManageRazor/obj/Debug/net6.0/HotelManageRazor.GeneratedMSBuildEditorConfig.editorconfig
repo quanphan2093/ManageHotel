@@ -32,6 +32,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tbW9uXEFib3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Common/ComfirmEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tbW9uXENvbWZpcm1FbWFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Common/Contact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tbW9uXENvbnRhY3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Customer/Booking.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcQm9va2luZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Customer/MyBooking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3VzdG9tZXJcTXlCb29raW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Customer/Room.cshtml]
@@ -70,6 +78,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Manage/ManageAccount.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFuYWdlXE1hbmFnZUFjY291bnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Manage/ManageBooking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFuYWdlXE1hbmFnZUJvb2tpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Manage/ManagePaymentType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFuYWdlXE1hbmFnZVBheW1lbnRUeXBlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Manage/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFuYWdlXFByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [E:/Workspace/.Net Web API/ManageHotel/HotelManageRazor/Pages/Manage/RoomMange.cshtml]

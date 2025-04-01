@@ -55,7 +55,7 @@ namespace HotelManageRazor.Pages.Customer
             }
         }
 
-        public async Task OnPost(string name, string email, string phone, string start, string end, List<string> room, int paymentId)
+        public async Task<IActionResult> OnPost(string name, string email, string phone, string start, string end, List<string> room, int paymentId)
         {
             foreach (var roomId in room)
             {
@@ -75,7 +75,6 @@ namespace HotelManageRazor.Pages.Customer
                     Status = "Booking",
                     PaymentTypeId = paymentId
                 };
-
                 var jsonContent = new StringContent(JsonSerializer.Serialize(bookingDto, options), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(BookingApiUrl, jsonContent);
                 if (response.IsSuccessStatusCode)
@@ -115,8 +114,7 @@ namespace HotelManageRazor.Pages.Customer
             {
                 Error = $"An error occurred: {ex.Message}";
             }
+            return RedirectToPage();
         }
-
-
     }
 }

@@ -29,6 +29,9 @@ namespace ManageHotel.Config
 
             CreateMap<BookingDetail, GetBookingDetailDTO>().ReverseMap();
             CreateMap<BookingDetail, AddBookingDetailDTO>().ReverseMap();
+            CreateMap<BookingDetail, UpdateStatusBooking>().ReverseMap();
+            CreateMap<UpdateStatusBooking, Booking>()
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
 
             CreateMap<Booking, GetBookingDTO>().ReverseMap();
             CreateMap<Booking, AddBookingDTO>().ReverseMap();

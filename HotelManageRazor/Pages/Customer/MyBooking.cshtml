@@ -1,0 +1,86 @@
+﻿@page "/MyBooking"
+@model HotelManageRazor.Pages.Customer.MyBookingModel
+@{
+    Layout = "_Layout";
+}
+
+<form id="searchForm" method="get" style="margin-top:20px; margin-bottom:100px">
+    <div class="d-flex align-items-center gap-2">
+        <div class="form-floating flex-grow-1">
+            <input type="text" name="phonenumber" class="form-control" id="phone" placeholder="Your Phone Number">
+            <label for="phone">Your Phone Number</label>
+        </div>
+        <button type="submit" class="btn btn-primary h-100" style="padding: 16px 30px;">Submit</button>
+    </div>
+</form>
+
+<div id="bookingResults">
+    @if (Model.GetBookingDTOs != null && Model.GetBookingDTOs.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>FullName</td>
+                    <td>Email</td>
+                    <td>StartDate</td>
+                    <td>EndDate</td>
+                    <td>Status</td>
+                    <td>PaymentType</td>
+                    <td>Room</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.GetBookingDTOs)
+                {
+                    <tr>
+                        <td>@i.FullName</td>
+                        <td>@i.Email</td>
+                        <td>@i.StartDate.ToString("dd/MM/yyyy")</td>
+                        <td>@i.EndDate.ToString("dd/MM/yyyy")</td>
+                        <td>@i.Status</td>
+                        <td>@i.PaymentType.PaymentMethod</td>
+                        <td>
+                            @foreach (var r in i.BookingDetails)
+                            {
+                                <p>@r.Room.RoomNumber</p>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-danger">Không tìm thấy kết quả.</p>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#searchForm").submit(function (event) {
+                event.preventDefault();
+
+                var phoneNumber = $("#phone").val().trim();
+                if (phoneNumber === "") {
+                    $("#bookingResults").html("<p class='text-danger'>Vui lòng nhập số điện thoại.</p>");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/MyBooking?handler=Search",
+                    type: "GET",
+                    data: { phonenumber: phoneNumber },
+                    success: function (data) {
+                        $("#bookingResults").html(data);
+                    },
+                    error: function () {
+                        $("#bookingResults").html("<p class='text-danger'>Lỗi khi tìm kiếm. Vui lòng thử lại.</p>");
+                    }
+                });
+            });
+        });
+    </script>
+}

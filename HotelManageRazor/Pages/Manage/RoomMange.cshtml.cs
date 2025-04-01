@@ -19,7 +19,13 @@ namespace HotelManageRazor.Pages.Manage
             RoomApiUrl = "https://localhost:7036/api/Room";
         }
         public List<GetRoomDTO> GetRooms { get; set; } = new List<GetRoomDTO>();
-        public async Task OnGet() { 
+        public async Task<IActionResult> OnGet() {
+            var token = HttpContext.Session.GetString("JWT");
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToPage("/Common/403");
+            }
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             var roomResponse = await client.GetStringAsync(RoomApiUrl);
 
@@ -27,6 +33,7 @@ namespace HotelManageRazor.Pages.Manage
             {
                 GetRooms = JsonSerializer.Deserialize<List<GetRoomDTO>>(roomResponse, options) ?? new List<GetRoomDTO>();
             }
+            return Page();
         }
 
         public async Task<IActionResult> OnPostActive(int id)
